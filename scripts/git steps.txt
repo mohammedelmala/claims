@@ -1,0 +1,12 @@
+git init -b ProShopNodejs
+git add .
+git commit -m "create react application"
+
+git remote add origin https://github.com/mohammedelmala/ProShopNodejs.git
+# Sets the new remote
+$ git remote -v
+# Verifies the new remote URL
+
+git branch -M main
+
+git push -u origin main
