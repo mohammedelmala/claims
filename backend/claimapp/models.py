@@ -14,7 +14,7 @@ class Application(models.Model):
 
 class Service(models.Model):
     id = models.IntegerField(primary_key=True)
-    applicationId = models.ForeignKey(Application)
+    applicationId = models.ForeignKey(Application, on_delete=models.deletion.CASCADE)
     code = models.CharField(max_length=60, unique=True)
     name = models.CharField(max_length=60, unique=True)
     description = models.CharField(max_length=240, blank=True, null=True)
@@ -34,8 +34,8 @@ class Entity(models.Model):
 
 class EntityApplication(models.Model):
     id = models.IntegerField(primary_key=True)
-    entityId = models.ForeignKey(Entity)
-    applicationId = models.ForeignKey(Application)
+    entityId = models.ForeignKey(Entity, models.deletion.CASCADE)
+    applicationId = models.ForeignKey(Application,  models.deletion.CASCADE)
     description = models.CharField(max_length=240, blank=True, null=True)
     isActive = models.BooleanField(default=True)
 
@@ -48,15 +48,15 @@ class ElementType(models.Model):
     isActive = models.BooleanField(default=True)
 
 
-class EntityElement(models.Model):
+class EntityElementType(models.Model):
     id = models.IntegerField(primary_key=True)
-    entityId = models.ForeignKey(Entity)
+    entityId = models.ForeignKey(Entity, on_delete=models.deletion.CASCADE)
     elementId = models.IntegerField()
     description = models.CharField(max_length=240, blank=True, null=True)
     isActive = models.BooleanField(default=True)
     calculationMethod = models.CharField(max_length=30, default="service")
     fixedAmount = models.DecimalField(max_digits=11, decimal_places=2, blank=True, null=True)
-    serviceId = models.ForeignKey(ElementType, blank=True, null=True)
+    serviceId = models.ForeignKey(ElementType, blank=True, null=True, on_delete=models.deletion.CASCADE)
     isActive = models.BooleanField(default=True)
 
 
@@ -70,7 +70,7 @@ class Role(models.Model):
 
 class RoleLine(models.Model):
     id = models.IntegerField(primary_key=True)
-    roleId = models.ForeignKey(Role)
+    roleId = models.ForeignKey(Role, on_delete=models.deletion.CASCADE)
     periodUom = models.CharField(max_length=30)
     period = models.IntegerField()
     percentage = models.IntegerField()
@@ -87,8 +87,8 @@ class ClaimType(models.Model):
 
 class ClaimTypeElement(models.Model):
     id = models.IntegerField(primary_key=True)
-    claimTypeId = models.ForeignKey(ClaimType)
-    elementTypeId = models.ForeignKey(ElementType)
+    claimTypeId = models.ForeignKey(ClaimType, on_delete=models.deletion.CASCADE)
+    elementTypeId = models.ForeignKey(ElementType, on_delete=models.deletion.CASCADE)
     isActive = models.BooleanField(default=True)
 
 
@@ -97,8 +97,8 @@ class Decision(models.Model):
     code = models.CharField(max_length=60, unique=True)
     name = models.CharField(max_length=60, unique=True)
     description = models.CharField(max_length=240, blank=True, null=True)
-    claimTypeId = models.ForeignKey(ClaimType)
-    roleId = models.ForeignKey(Role)
+    claimTypeId = models.ForeignKey(ClaimType, on_delete=models.deletion.CASCADE)
+    roleId = models.ForeignKey(Role, on_delete=models.deletion.CASCADE)
     startDate = models.DateField()
     endDate = models.DateField(blank=True, null=True)
     isActive = models.BooleanField(default=True)
@@ -106,9 +106,9 @@ class Decision(models.Model):
 
 class DecisionElementType(models.Model):
     id = models.IntegerField(primary_key=True)
-    decisionId = models.ForeignKey(Decision)
-    elementTypeId = models.ForeignKey(ElementType)
-    roleId = models.ForeignKey(Role)
+    decisionId = models.ForeignKey(Decision, on_delete=models.deletion.CASCADE)
+    elementTypeId = models.ForeignKey(ElementType, on_delete=models.deletion.CASCADE)
+    roleId = models.ForeignKey(Role, on_delete=models.deletion.CASCADE)
 
 
 
