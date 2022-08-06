@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Application(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     code = models.CharField(max_length=60, unique=True)
     name = models.CharField(max_length=60, unique=True)
     description = models.CharField(max_length=240, blank=True, null=True)
